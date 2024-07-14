@@ -5,8 +5,8 @@ import "./globals.css";
 const montserrat = Montserrat({ subsets: ["cyrillic"] });
 
 export const metadata: Metadata = {
-  title: "Skypro-music",
-  description: "Громкая музыка для неприятных людей",
+  title: "Skypro music",
+  description: "Music for you",
 };
 
 export default function RootLayout({

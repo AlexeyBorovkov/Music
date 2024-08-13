@@ -65,7 +65,7 @@ export const Bar = () => {
   return (
     <div className={styles.bar}>
       <div className={styles.barContent}>
-      <audio className={styles.audio} ref={audioRef} controls src={track_file} onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)} />
+      <audio className={`${styles.audio} ${styles.hidden}`}  ref={audioRef} controls src={track_file} onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)} />
         <ProgressBar max={duration} value={currentTime} step={0.01} onChange={handleSeek}/>
         <div className={styles.barPlayerBlock}>
           <div className={styles.barPlayer}>

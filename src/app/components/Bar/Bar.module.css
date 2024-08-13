@@ -32,3 +32,6 @@
     align-items: center;
     justify-content: flex-start;
 }
+.hidden {
+    display: none;
+}

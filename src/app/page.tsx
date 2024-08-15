@@ -9,7 +9,7 @@ export default function Home() {
     <div className={styles.wrapper}>
       <div className={styles.container}>
         <CurrentTrackProvider>
-          <Main/> 
+          <Main/>
           <Bar/>
         </CurrentTrackProvider>
         <Footer/>

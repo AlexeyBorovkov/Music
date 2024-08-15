@@ -1,6 +1,6 @@
 'use client'
 
-import { TrackType } from "@/types/tracks";
+import { TrackType } from "@/types/trackstypes";
 import styles from "./Filter.module.css";
 import { getUniqueValues } from "@/utils/getUniqueValues";
 import { FilterItem } from "./FilterItem/FilterItem";

@@ -1,28 +1,28 @@
 'use client'
 
-import { TrackType } from "@/types/tracks";
+import { TrackType } from "@/types/trackstypes";
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react";
 
 type CurrentTrackContextValue = {
-    currentTrack: TrackType | null
-    setCurrentTrack: Dispatch<SetStateAction<TrackType | null>>;
+    currentTrack: TrackType | null;
+    setCurrentTrack: Dispatch<SetStateAction <TrackType | null>>
 }
 
-const CurrentTrackContext = createContext<CurrentTrackContextValue | undefined>(undefined);
+const CurrentTrackContext = createContext<CurrentTrackContextValue | undefined>(undefined)
 
 type CurrentTrackProviderProps = {
     children: ReactNode,
 }
-export const CurrentTrackProvider = ({children}: CurrentTrackProviderProps) => {
-    const [currentTrack, setCurrentTrack] = useState<TrackType | null>(null);
 
+export function CurrentTrackProvider({children}: CurrentTrackProviderProps) {
+    const [currentTrack, setCurrentTrack] = useState<TrackType | null>(null)
     return <CurrentTrackContext.Provider value={{currentTrack, setCurrentTrack}}>{children}</CurrentTrackContext.Provider>
-}
+} 
 
-export const useCurrentTrack = () => {
-    const context = useContext(CurrentTrackContext);
+export function useCurrentTrack(){
+    const context = useContext(CurrentTrackContext)
     if (context === undefined) {
-        throw new Error ('useCurrentTrack должен использоваться внутри провайдера');
+        throw new Error('useCurrentTrack должон использоваться вунтри провайдера')
     }
     return context;
 }

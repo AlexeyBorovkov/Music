@@ -32,6 +32,11 @@
     align-items: center;
     justify-content: flex-start;
 }
-.hidden {
+
+.audio{
     display: none;
+}
+
+.box{
+    display: flex;
 }

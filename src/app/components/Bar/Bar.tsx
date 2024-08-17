@@ -27,8 +27,8 @@ export const Bar = () => {
     if (audio) 
       audio.play()
 
-    setIsPlaying(true)
-  }, [currentTrack])
+    dispatch(setIsPlaying(true));
+  }, [currentTrack, dispatch])
 
   const handleNextTrack = () => {
     dispatch(setNextTrack())
@@ -40,7 +40,7 @@ export const Bar = () => {
     return () => {
       audioRef.current?.removeEventListener("ended", handleNextTrack);
     };
-  }, [currentTrack]);
+  }, [currentTrack, dispatch]);
 
   const togglePlay = () => {
     const audio = audioRef.current;

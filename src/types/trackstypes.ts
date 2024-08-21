@@ -1,4 +1,4 @@
-import { UserType } from "./user"
+import { UserType } from "./uset";
 
 export type TrackType = {
     id: number;

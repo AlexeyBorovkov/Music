@@ -77,12 +77,32 @@
   stroke: #696969;
 }
 
+.playerBtnRepeatSvgActive {
+  width: 18px;
+  height: 12px;
+  fill: transparent;
+  stroke: #fff;
+}
+/* .playerBtnRepeatSvg {
+  width: 18px;
+  height: 12px;
+  fill: transparent;
+  stroke: #696969;
+} */
+
 .playerBtnShuffle {
   display: flex;
   align-items: center;
   padding: 5px;
   display: flex;
   align-items: center;
+}
+
+.playerBtnShuffleSvgActive {
+  width: 19px;
+  height: 12px;
+  fill: transparent;
+  stroke: #ffffff;
 }
 
 .playerBtnShuffle:hover svg {

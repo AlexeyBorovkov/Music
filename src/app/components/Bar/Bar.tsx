@@ -1,6 +1,5 @@
 'use client'
 
-import { useCurrentTrack } from "@/contexts/CurrentTrackProvider";
 import PlayerControls from "../PlayerControls/PlayerControls";
 import { TrackPlay } from "../TrackPlay/TrackPlay";
 import { Volume } from "../Volume/Volume";
@@ -8,22 +7,39 @@ import styles from "./Bar.module.css";
 import { useEffect, useRef, useState } from "react";
 import ProgressBar from "./ProgressBar/ProgressBar";
 import { CurrentTimeBlock } from "./CurrentTimeBlock/CurrentTimeBlock";
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import { setIsPlaying, setNextTrack } from "@/store/features/playlistSlice";
 
 export const Bar = () => {
-  const {currentTrack} = useCurrentTrack();
+  const currentTrack = useAppSelector((state) => state.playlist.currentTrack);
+  const isPlaying = useAppSelector((state) => state.playlist.isPlaying);
+
+  const dispatch = useAppDispatch();
+  
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [isLoop, setIsLoop] = useState<boolean>(false);
 
   useEffect(() => {
     const audio = audioRef.current;
-
+ 
     if (audio) 
       audio.play()
 
-    setIsPlaying(true)
-  }, [currentTrack])
+    dispatch(setIsPlaying(true));
+  }, [currentTrack, dispatch])
+
+  const handleNextTrack = () => {
+    dispatch(setNextTrack())
+  }
+
+  useEffect(() => {
+    audioRef.current?.addEventListener("ended", handleNextTrack);
+
+    return () => {
+      audioRef.current?.removeEventListener("ended", handleNextTrack);
+    };
+  }, [currentTrack, dispatch]);
 
   const togglePlay = () => {
     const audio = audioRef.current;
@@ -34,7 +50,7 @@ export const Bar = () => {
       else
         audio.play();
 
-      setIsPlaying((prev) => !prev);
+        dispatch(setIsPlaying(!isPlaying));
     }
   }
 
@@ -60,7 +76,6 @@ export const Bar = () => {
   }
   const {name, author, track_file} = currentTrack;
   const duration = audioRef.current?.duration || 0;
-  audioRef.current?.addEventListener('ended', () => setIsPlaying(false));
 
   return (
     <div className={styles.bar}>

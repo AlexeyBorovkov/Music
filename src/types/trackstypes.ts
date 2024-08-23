@@ -1,7 +1,7 @@
-import { UserType } from "./uset";
+import { UserType } from "./user";
 
 export type TrackType = {
-    id: number;
+    _id: number;
     name: string;
     author: string;
     release_date: string;

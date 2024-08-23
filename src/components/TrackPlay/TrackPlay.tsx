@@ -1,11 +1,20 @@
+import useLikeTrack from "@/hooks/useLikeTrack";
 import styles from "./TrackPlay.module.css";
+import { TrackType } from "@/types/trackstypes";
 
 type TrackPlayProps = {
-  name:string,
+  name: string,
   author: string,
+  currentTrack: TrackType | null,
 }
 
-export const TrackPlay = ({name, author}: TrackPlayProps) => {
+export const TrackPlay = ({name, author, currentTrack}: TrackPlayProps) => {
+  if (!currentTrack) {
+    return <div>Track information is not available.</div>;
+  }
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const {isLiked, handleLike} = useLikeTrack(currentTrack);
+
   return (
     <div className={styles.playerTrackPlay}>
       <div className={styles.trackPlayContain}>
@@ -15,7 +24,7 @@ export const TrackPlay = ({name, author}: TrackPlayProps) => {
           </svg>
         </div>
         <div className={styles.trackPlayAuthor}>
-          <a className={styles.trackPlayAuthorLink} href="http://">
+          <a className={styles.trackPlayAuthorLink} href="http://">5
             {name}
           </a>
         </div>
@@ -26,14 +35,9 @@ export const TrackPlay = ({name, author}: TrackPlayProps) => {
         </div>
       </div>
       <div className={styles.trackPlayLikeDis}>
-        <div className={styles.trackPlayLike}>
+        <div className={styles.trackPlayLike} onClick={handleLike}>
           <svg className={styles.trackPlayLikeSvg}>
-            <use xlinkHref="img/icon/sprite.svg#icon-like" />
-          </svg>
-        </div>
-        <div className={styles.trackPlayDislike}>
-          <svg className={styles.trackPlayDislikeSvg}>
-            <use xlinkHref="img/icon/sprite.svg#icon-dislike" />
+            <use xlinkHref={isLiked ? "/img/icon/sprite.svg#icon-active-like" : "/img/icon/sprite.svg#icon-like"} />
           </svg>
         </div>
       </div>

@@ -1,9 +1,9 @@
-import { PlaylistItem } from "@/app/components/PlaylistItem/PlaylistItem";
+import { PlaylistItem } from "@/components/PlaylistItem/PlaylistItem";
 import { Filter } from "../Filter/Filter";
 import PlaylistTitle from "../PlaylistTitle/PlaylistTitle";
 import Searchbar from "../Searchbar/Searchbar";
 import styles from "./Centerblock.module.css";
-import { getTracks } from "../../../api/tracks";
+import { getTracks } from "@/api/tracks";
 import { TrackType } from "@/types/trackstypes";
 
 export async function Centerblock () {

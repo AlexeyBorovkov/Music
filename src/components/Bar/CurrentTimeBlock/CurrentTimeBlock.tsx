@@ -1,15 +1,19 @@
-import { convertSecondsToMinutes } from "@/utils/helpers";
-import styles from "./CurrentTimeBlock.module.css";
+import styles from "./currentTimeBlock.module.css";
+import { timeFormat } from "@/utils/helpers";
 
-type CurrentTimeProps = {
-    currentTime: number;
-    duration: number;
-}
+type CurrentTimeBlockProps = {
+  currentTime: number;
+  duration: number;
+};
 
-export function CurrentTimeBlock({currentTime, duration}: CurrentTimeProps) {
-    const durationTime = convertSecondsToMinutes(duration)
-    const currentTimeSong = convertSecondsToMinutes(currentTime)
-    return (
-        <div className={styles.time}>{`${currentTimeSong} / ${durationTime}`}</div>
-    )
-}
+export const CurrentTimeBlock = ({
+  currentTime,
+  duration,
+}: CurrentTimeBlockProps) => {
+  const allTimeBar = timeFormat(duration);
+  const currentTimeBar = timeFormat(currentTime);
+
+  return (
+    <div className={styles.timeBlock}>{`${currentTimeBar} / ${allTimeBar}`}</div>
+  );
+};

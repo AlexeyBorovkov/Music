@@ -1,7 +1,7 @@
-import { FavoriteTracks } from "@/components/FavoriteTraks/favoriteTracks";
+import { FavoriteTracks } from "@/components/FavoriteTracks/FavoriteTracks";
 
-export default function FavoriteTrackPage() {
-    return (
-      <FavoriteTracks />
-    );
-  }
+export default function FavoritePage() {
+  return (
+    <FavoriteTracks />
+  );
+}

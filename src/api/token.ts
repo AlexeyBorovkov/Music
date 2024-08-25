@@ -14,7 +14,7 @@ export async function fetchToken({ email, password }: {email:string, password: s
   if (!tokens.ok) {
     throw new Error(tokens.statusText);
   }
-
+  
   return tokens.json();
 }
 

@@ -1,13 +1,11 @@
 'use client'
-
-import { getCategoryTracks } from "@/api/tracks"
-import styles from "../../layout.module.css"
-import { useAppDispatch, useAppSelector } from "@/utils/hooks"
-import { useEffect, useRef, useState } from "react"
-import { setCurrentPlaylist } from "@/store/features/playlistSlice"
-import Centerblock from "@/components/Centerblock/Centerblock"
-import { Filter } from "@/components/Filter/Filter"
-import { TrackType } from "@/types/trackstypes" 
+import styles from "../../layout.module.css";
+import { getCategoryTracks } from "@/api/tracks";
+import { Filter } from "@/components/Filter/Filter";
+import { Playlist } from "@/components/Playlist/Playlist";
+import { setCurrentPlaylist } from "@/store/features/tracksSlice";
+import { useAppDispatch, useAppSelector } from "@/store/store";
+import { useEffect, useRef } from "react";
 
 type CategoryProps = {
   params: {
@@ -17,34 +15,29 @@ type CategoryProps = {
 
 function Category({ params }: CategoryProps) {
   const dispatch = useAppDispatch();
-  const { initialPlaylist } = useAppSelector((state) => state.playlist);
-  const [tracks, setTracks] = useState<TrackType[]>([]);
-  const name = useRef<string | undefined>(undefined);
+  const {initialPlaylist} = useAppSelector((state) => state.tracks);
 
+  const name = useRef();
+  
   useEffect(() => {
-    const fetchTracks = async () => {
-      try {
-        const res = await getCategoryTracks(params.id);
+    try {
+      getCategoryTracks(params.id).then((res) => {
         name.current = res.name;
         const items = res.items;
-        const tracks = items
-          .map((item: number) => initialPlaylist.filter((track: { _id: number }) => track._id === item))
-          .flat();
+        const tracks = items.map((item: number) => initialPlaylist.filter((track) => track._id === item)).flat();
         dispatch(setCurrentPlaylist(tracks));
-        setTracks(tracks); // Обновление состояния
-      } catch (error) {
-        console.error("Error fetching category tracks:", error);
-      }
-    };
-
-    fetchTracks();
-  }, [dispatch, params.id, initialPlaylist]);
+      })
+    } catch (error) {
+      
+    }
+  }, [dispatch, params.id, initialPlaylist, name]);
+  
 
   return (
     <>
       <h2 className={styles.centerblockH2}>{name.current}</h2>
-      <Filter tracks={tracks}/>
-      <Centerblock />
+      <Filter />
+      <Playlist />
     </>
   );
 };

@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 import ReduxProvider from "@/store/ReduxProvider";
+import { CurrentTrackProvider } from "@/contexts/CurrentProvider";
 
 const montserrat = Montserrat({ subsets: ["cyrillic"] });
 
 export const metadata: Metadata = {
   title: "Skypro music",
-  description: "Music for you",
+  description: "Музыка для души",
 };
 
 export default function RootLayout({
@@ -17,11 +18,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru">
-      <head>
-        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-      </head>
       <ReduxProvider>
-        <body className={montserrat.className}>{children}</body>  
+        <CurrentTrackProvider>
+          <body className={montserrat.className}>{children}</body>
+        </CurrentTrackProvider>
       </ReduxProvider>
     </html>
   );

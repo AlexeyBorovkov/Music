@@ -1,17 +1,15 @@
-"use client"
-
-import styles from "./signin.module.css"
-import Image from "next/image"
-import classNames from "classnames"
-import Link from "next/link"
-import { useState } from "react"
-import { getTokens, getUser } from "@/store/features/userSlice"
-import { useRouter } from "next/navigation"
-import { useAppDispatch, useAppSelector } from "@/utils/hooks"
+"use client";
+import styles from "./signin.module.css";
+import Image from "next/image";
+import classNames from "classnames";
+import Link from "next/link";
+import { useAppDispatch, useAppSelector } from "@/store/store";
+import { useState } from "react";
+import { getTokens, getUser } from "@/store/features/userSlice";
+import { useRouter } from "next/navigation";
 
 export function Signin() {
-  const userState = useAppSelector((state) => state.user); // Добавляем проверку состояния
-  const error = userState?.error; // Используем optional chaining
+  const error = useAppSelector((state) => state.user.error);
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [inputValue, setInputValue] = useState({
@@ -35,9 +33,9 @@ export function Signin() {
         dispatch(getTokens(inputValue)).unwrap(),
         dispatch(getUser(inputValue)).unwrap(),
       ]);
-      router.push("/");
+      router.push("/tracks");
     } catch (error: unknown) {
-      console.error("Sign-in error:", error); // Добавлено более информативное сообщение об ошибке
+      console.error("error");
     }
   };
 
@@ -46,9 +44,14 @@ export function Signin() {
       <div className={styles.containerEnter}>
         <div className={styles.modalBlock}>
           <form action="#" className={styles.modalFormLogin}>
-            <Link href="/">
+            <Link href="/tracks">
               <div className={styles.modalLogo}>
-                <Image alt="logo" src="/img/logo_modal.png" width={140} height={21} />
+                <Image
+                  alt="logo"
+                  src="/img/logo_modal.png"
+                  width={140}
+                  height={21}
+                />
               </div>
             </Link>
             <input
@@ -67,10 +70,13 @@ export function Signin() {
               placeholder="Пароль"
               type="password"
             />
-            <p className={styles.error}>{error ? error : ''}</p>
+            <p className={styles.error}>{error && error}</p>
             <button
               onClick={handleSignin}
-              className={classNames(styles.modalBtnEnter, styles.modalBtnEnterText)}
+              className={classNames(
+                styles.modalBtnEnter,
+                styles.modalBtnEnterText
+              )}
             >
               <span>Войти</span>
             </button>

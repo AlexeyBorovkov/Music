@@ -1,6 +1,10 @@
-import {refreshToken} from "@/api/token";
+import { refreshToken } from "@/api/token";
 
-export async function fetchWithAuth(url: string, options: RequestInit, refresh: string) {
+export async function fetchWithAuth(
+  url: string,
+  options: RequestInit,
+  refresh: string
+) {
   let res = await fetch(url, options);
 
   // Проверка на истечение Access токена (401 Unauthorized)

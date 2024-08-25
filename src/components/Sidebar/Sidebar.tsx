@@ -1,69 +1,69 @@
-'use client'
-
+"use client";
 import Image from "next/image";
-import styles from "./Sidebar.module.css"
-import { useAppDispatch, useAppSelector } from "@/utils/hooks";
+import styles from "./sidebar.module.css";
 import { logout } from "@/store/features/userSlice";
-import { useInitialLikedTracks } from "@/hooks/useInitialTracks";
+import { useAppDispatch, useAppSelector } from "@/store/store";
+import useInitializeLikedTracks from "@/hooks/useInitializeLikedTracks";
+import Link from "next/link";
 
-export const Sidebar = () => {
-    const { user } = useAppSelector((state) => state.user || { user: null});
-    const dispatch =useAppDispatch()
-    const handleLogout= () => {
-      dispatch(logout())
-      localStorage.clear()
-    }
-    useInitialLikedTracks()
-    return (
-        <div className={styles.mainSidebar}>
-        {user && 
-        (<div onClick={handleLogout} className={styles.sidebarPersonal}>
-          <p className={styles.sidebarPersonalName}>{user}</p>
-          <div className={styles.sidebarIcon}>
+export function Sidebar() {
+  const { user } = useAppSelector((state) => state.user);
+  useInitializeLikedTracks();
+  const dispatch = useAppDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+  return (
+    <div className={styles.mainSidebar}>
+      {user ? (
+        <div className={styles.sidebarPersonal}>
+          <p className={styles.sidebarPersonalName}>{user.username}</p>
+          <div onClick={handleLogout} className={styles.sidebarIcon}>
             <svg>
-              <use xlinkHref="img/icon/sprite.svg#icon-logout" />
+              <use xlinkHref="/img/icon/sprite.svg#logout" />
             </svg>
           </div>
-        </div>)}
-        <div className={styles.sidebarBlock}>
-          <div className={styles.sidebarList}>
-            <div className={styles.sidebarItem}>
-              <a className={styles.sidebarLink} href="#">
-                <Image
-                  className={styles.sidebarImg}
-                  src="/img/playlist01.png"
-                  alt="day's playlist"
-                  width={250} 
-                  height={160}
-                />
-              </a>
-            </div>
-            <div className={styles.sidebarItem}>
-              <a className={styles.sidebarLink} href="#">
-                <Image
-                  className={styles.sidebarImg}
-                  src="/img/playlist02.png"
-                  alt="day's playlist"
-                  width={250} 
-                  height={150}
-                />
-              </a>
-            </div>
-            <div className={styles.sidebarItem}>
-              <a className={styles.sidebarLink} href="#">
-                <Image
-                  className={styles.sidebarImg}
-                  src="/img/playlist03.png"
-                  alt="day's playlist"
-                  width={250} 
-                  height={150}
-                />
-              </a>
-            </div>
+        </div>
+      ) : (
+        ""
+      )}
+      <div className={styles.sidebarBlock}>
+        <div className={styles.sidebarList}>
+          <div className={styles.sidebarItem}>
+            <Link className={styles.sidebarLink} href="/tracks/category/2">
+              <Image
+                alt="day's playlist"
+                className={styles.sidebarImg}
+                src="/img/playlist01.png"
+                width={250}
+                height={150}
+              />
+            </Link>
+          </div>
+          <div className={styles.sidebarItem}>
+            <Link className={styles.sidebarLink} href="/tracks/category/3">
+              <Image
+                alt="day's playlist"
+                className={styles.sidebarImg}
+                src="/img/playlist02.png"
+                width={250}
+                height={150}
+              />
+            </Link>
+          </div>
+          <div className={styles.sidebarItem}>
+            <Link className={styles.sidebarLink} href="/tracks/category/4">
+              <Image
+                alt="day's playlist"
+                className={styles.sidebarImg}
+                src="/img/playlist03.png"
+                width={250}
+                height={150}
+              />
+            </Link>
           </div>
         </div>
       </div>
-    )
+    </div>
+  );
 }
-
-export default Sidebar;

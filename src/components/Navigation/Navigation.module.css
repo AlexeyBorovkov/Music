@@ -12,6 +12,12 @@
     margin-bottom: 20px;
 }
 
+.logoImage {
+    width: 113.33px;
+    height: 17px;
+    color: #181818;
+}
+
 .navBurger {
     width: 20px;
     height: 36px;
@@ -19,24 +25,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    cursor: pointer;
 }
 
-.navMenu {
-    display: block;
-    visibility: visible;
-}
-
-/* Лучше лого в отдельный компонент */
-.logoImage {
-    /* width: 113.33px;
-    height: 17px; */
-    width: auto;
-    height: auto;
-    color: #181818;
-}
-
-/* Лучше бургер в отдельный компонент */
 .burgerLine {
     display: inline-block;
     width: 100%;

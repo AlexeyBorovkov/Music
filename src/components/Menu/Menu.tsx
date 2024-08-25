@@ -1,16 +1,13 @@
-import styles from "./Menu.module.css";
-import { useAppDispatch, useAppSelector } from "@/utils/hooks";
-import { useRouter } from "next/navigation";
-import { logout } from "@/store/features/userSlice";
+import styles from "./menu.module.css";
 import Link from "next/link";
+import { logout } from "@/store/features/userSlice";
+import { useAppDispatch, useAppSelector } from "@/store/store";
+import { useRouter } from "next/navigation";
 
-export const Menu = () => {
+export function Menu() {
   const dispatch = useAppDispatch();
-  const userState = useAppSelector((state) => state.user);
+  const { user } = useAppSelector((state) => state.user);
   const router = useRouter();
-
-  // Проверяем, что userState определен и содержит свойство user
-  const user = userState ? userState.user : null;
 
   const handleLogout = () => {
     dispatch(logout());
@@ -25,22 +22,30 @@ export const Menu = () => {
   };
 
   return (
-    <ul className={styles.menuList}>
-      <li className={styles.menuItem}>
-        <Link href="/" className={styles.menuLink}>Главное</Link>
-      </li>
-      <li onClick={handleFavorite} className={styles.menuItem}>
-        <p className={styles.menuLink}>Мой плейлист</p>
-      </li>
-      <li className={styles.menuItem}>
-        {user ? (
-          <a onClick={handleLogout} className={styles.menuLink}>Выйти</a>
-        ) : (
-          <Link className={styles.menuLink} href="/login">Войти</Link>
-        )}
-      </li>
-    </ul>
+    <div className={styles.navMenu}>
+      <ul className={styles.menuList}>
+        <li className={styles.menuItem}>
+          <Link className={styles.menuLink} href="/tracks">
+            Главное
+          </Link>
+        </li>
+        <li onClick={handleFavorite} className={styles.menuItem}>
+          <a className={styles.menuLink}>
+            Мой плейлист
+          </a>
+        </li>
+        <li className={styles.menuItem}>
+          {user ? (
+            <a onClick={handleLogout} className={styles.menuLink}>
+              Выйти
+            </a>
+          ) : (
+            <Link className={styles.menuLink} href="/login">
+              Войти
+            </Link>
+          )}
+        </li>
+      </ul>
+    </div>
   );
-};
-
-export default Menu;
+}

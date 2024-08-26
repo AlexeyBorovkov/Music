@@ -1,6 +1,12 @@
-export function convertSecondsToMinutes(duration_in_seconds : number) {
-    const minutes = Math.floor(duration_in_seconds / 60);
-    const remainingSeconds = Math.floor(duration_in_seconds % 60);
-    return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds || '00'}`;
-}
-
+export const timeFormat = (time: number) => {
+  if (typeof time === "number") {
+    const minutes = Math.floor(time / 60);
+    const seconds = +time.toFixed(0) % 60;
+    let finalTime = `${minutes}:${seconds}`;
+    if (seconds < 10) {
+      finalTime = `${minutes}:0${seconds}`;
+    }
+    return finalTime;
+  }
+  return 0;
+};

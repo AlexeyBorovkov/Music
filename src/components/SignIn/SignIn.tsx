@@ -16,6 +16,7 @@ export function Signin() {
     email: "",
     password: "",
   });
+  const [formError, setFormError] = useState<string | null>(null);
 
   const onChangedInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
@@ -24,18 +25,20 @@ export function Signin() {
 
   const handleSignin = async (e: React.MouseEvent) => {
     e.preventDefault();
+    if (!inputValue.email || !inputValue.password) {
+      setFormError('Введите данные для входа');
+      return;
+    }
+    setFormError(null); // Очистка ошибки формы, если данные введены правильно
     try {
-      if (!inputValue.email || !inputValue.password) {
-        alert('Введите данные для входа');
-        return;
-      }
       await Promise.all([
         dispatch(getTokens(inputValue)).unwrap(),
         dispatch(getUser(inputValue)).unwrap(),
       ]);
       router.push("/tracks");
     } catch (error: unknown) {
-      console.error("error");
+      console.error("Ошибка");
+      // Обработка других ошибок при необходимости
     }
   };
 
@@ -47,7 +50,7 @@ export function Signin() {
             <Link href="/tracks">
               <div className={styles.modalLogo}>
                 <Image
-                  alt="logo"
+                  alt="логотип"
                   src="/img/logo_modal.png"
                   width={140}
                   height={21}
@@ -70,7 +73,7 @@ export function Signin() {
               placeholder="Пароль"
               type="password"
             />
-            <p className={styles.error}>{error && error}</p>
+            <p className={styles.error}>{formError || error}</p>
             <button
               onClick={handleSignin}
               className={classNames(

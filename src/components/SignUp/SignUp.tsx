@@ -16,6 +16,7 @@ export function Signup() {
     password: "",
     passwordTwo: "",
   });
+  const [formError, setFormError] = useState<string | null>(null);
 
   const onChangedInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
@@ -24,20 +25,24 @@ export function Signup() {
 
   const handleSignUp = async (e: React.MouseEvent) => {
     e.preventDefault();
+    if (!inputValue.email || !inputValue.password || !inputValue.passwordTwo) {
+      setFormError('Введите данные для входа');
+      return;
+    }
+    if (inputValue.password !== inputValue.passwordTwo) {
+      setFormError('Оба пароля должны совпадать');
+      return;
+    }
+    setFormError(null); // Очистка ошибки формы, если данные введены правильно
     try {
-      if (!inputValue.email || !inputValue.password || !inputValue.passwordTwo) {
-        alert('Введите данные для входа');
-        return;
-      }
-      if (inputValue.password !== inputValue.passwordTwo) {
-        return alert('Оба пароля должны совпадать');
-      }
       await dispatch(signup(inputValue)).unwrap();
       router.push("/login");
     } catch (error: unknown) {
-      console.error("error");
+      console.error("Ошибка");
+      // Обработка других ошибок при необходимости
     }
   };
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.containerSignup}>
@@ -46,7 +51,7 @@ export function Signup() {
             <Link href="/tracks">
               <div className={styles.modalLogo}>
                 <Image
-                  alt="logo"
+                  alt="логотип"
                   src="/img/logo_modal.png"
                   width={140}
                   height={21}
@@ -77,7 +82,7 @@ export function Signup() {
               placeholder="Повторите пароль"
               type="password"
             />
-            <p className={styles.error}>{error && error}</p>
+            <p className={styles.error}>{formError || error}</p>
             <button onClick={handleSignUp} className={styles.modalBtnSignupEnt}>
               <span>Зарегистрироваться</span>
             </button>

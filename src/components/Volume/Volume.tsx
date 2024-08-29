@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import styles from "./volume.module.css";
 import classNames from "classnames";
 
@@ -6,14 +6,15 @@ type VolumeProps = {
   audio: HTMLAudioElement | null,
 }
 
-export function Volume({audio}: VolumeProps) {
+// eslint-disable-next-line react/display-name
+const Volume = memo(({ audio }: VolumeProps) => {
   const [volume, setVolume] = useState<number>(0.5);
 
   useEffect(() => {
     if (audio) {
-        audio.volume = volume;
+      audio.volume = volume;
     }
-}, [volume, audio]);
+  }, [volume, audio]);
 
   return (
     <div className={styles.barVolumeBlock}>
@@ -24,7 +25,7 @@ export function Volume({audio}: VolumeProps) {
           </svg>
         </div>
         <div className={classNames(styles.volumeProgress, styles.btn)}>
-        <input
+          <input
             className={classNames(styles.volumeProgressLine, styles.btn, styles.input)}
             name="range"
             type="range"
@@ -38,4 +39,6 @@ export function Volume({audio}: VolumeProps) {
       </div>
     </div>
   );
-}
+});
+
+export { Volume };
